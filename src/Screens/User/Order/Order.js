@@ -130,6 +130,7 @@ function Order(props) {
                   alert(
                     "Transaction completed by " + details.payer.name.given_name
                   );
+
                   dispatch(
                     payOrder(props.match.params.id, {
                       email_address: details.payer.email_address,
@@ -148,12 +149,6 @@ function Order(props) {
                   clientId:
                     "ATx8Na-9swFrVwvoIGlZWfw7-CJoXi4QaatMLp7pMMv0y8fEu49zwf6AYBnmdNLxS3G7i2gAhx5g4l0K",
                 }}
-                style={{
-                  shape: "rect",
-                  label: "paypal",
-                  size: 'large',
-                  color: 'gold',
-                  }}
               />
             </FlexRow>
           )}

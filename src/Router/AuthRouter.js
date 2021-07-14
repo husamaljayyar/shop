@@ -1,17 +1,20 @@
-import { Route, Switch } from "react-router";
-import Login from "../Screens/Auth/Login/Login";
-import Register from "../Screens/Auth/Register/Register";
-import Review from "../Components/Review/Review"
+import { lazy } from "react";
+import { Route } from "react-router";
+
+const Login = lazy(() => import("../Screens/Auth/Login/Login"));
+const Register = lazy(() => import("../Screens/Auth/Register/Register"));
 
 const AuthRouter = () => {
   return [
-    <Route key={10}
+    <Route
+      key={10}
       path={"/login"}
       component={() => {
         return <Login />;
       }}
     />,
-    <Route key={20}
+    <Route
+      key={20}
       path={"/register"}
       component={() => {
         return <Register />;

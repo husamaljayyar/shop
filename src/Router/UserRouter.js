@@ -1,11 +1,13 @@
+import { lazy } from "react";
 import { Route } from "react-router";
-import ProfileScreen from "../Screens/User/ProfileScreen/ProfileScreen";
-import UpdateProfileScreen from "../Screens/User/UpdateProfileScreen/UpdateProfileScreen";
-import PaymentActivity from "../Screens/User/Payment/PaymentActivity/PaymentActivity";
-import EmptyCart from "../Screens/User/Shopping/EmptyCart/EmptyCart";
-import Payment from "../Screens/User/Payment/Payment";
-import Order from "../Screens/User/Order/Order"
-import Orders from "../Screens/User/Orders/Orders";
+
+const ProfileScreen = lazy(() => import("../Screens/User/ProfileScreen/ProfileScreen"));
+const UpdateProfileScreen = lazy(() => import("../Screens/User/UpdateProfileScreen/UpdateProfileScreen"));
+const PaymentActivity = lazy(() => import("../Screens/User/Payment/PaymentActivity/PaymentActivity"));
+const EmptyCart = lazy(() => import("../Screens/User/Shopping/EmptyCart/EmptyCart"));
+const Payment = lazy(() => import("../Screens/User/Payment/Payment"));
+const Order = lazy(() => import("../Screens/User/Order/Order"));
+const Orders = lazy(() => import("../Screens/User/Orders/Orders"));
 
 const UserRouter = () => {
   return [
@@ -31,7 +33,7 @@ const UserRouter = () => {
     />,
     <Route key={5} path={"/EmptyCart"} exact={true} component={EmptyCart} />,
     <Route key={50} path={"/order/:id"} exact={true} component={Order} />,
-    <Route key={6} path={"/Orders"} exact={true} component={Orders} />
+    <Route key={6} path={"/Orders"} exact={true} component={Orders} />,
   ];
 };
 

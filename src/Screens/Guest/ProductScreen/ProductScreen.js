@@ -21,7 +21,6 @@ import {
   InnerColumnContent,
   Row,
   TypographyText,
-  StyledFlexColumn,
   FlexColWhite,
   StyledTextArea,
 } from "./Product.Styles";
@@ -41,6 +40,11 @@ import {
   getProduct, // get Product by id
 } from "../../../Redux/Guest/guestActions";
 import { addCartItem } from "../../../Redux/Cart/cartAction";
+import { addReviewAction } from "../../../Redux/User/userActions";
+import {
+  ADD_REVIEW_RESET,
+  ADD_REVIEW_TO_PRODUCT,
+} from "../../../Redux/User/userTypesConstants";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -59,18 +63,17 @@ const styleButton = {
 };
 
 const ProductScreen = (props) => {
-  const loctionQuere = useLocationWithQuery();
+  const locationQuery = useLocationWithQuery();
   const {
     query: { review: reviewFromQuery, rating: ratingFromQuery },
-  } = loctionQuere;
+  } = locationQuery;
 
   const [count, setCount] = useState(1);
   const [rating, setRating] = useState(ratingFromQuery ? ratingFromQuery : 0);
   const [review, setReview] = useState(reviewFromQuery ? reviewFromQuery : "");
   const [error, setError] = useState("");
-  const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  const state = useSelector((state) => state);
   // useHistory : move between pages
   const params = useParams();
   const history = useHistory();
@@ -81,10 +84,35 @@ const ProductScreen = (props) => {
     history.goBack();
   };
   useEffect(() => {
+    dispatch({
+      type: ADD_REVIEW_RESET,
+    });
     dispatch(getFeaturedProducts());
     dispatch(getProduct(params.id));
   }, [dispatch, params.id]);
 
+  useEffect(() => {
+    if (state?.userDetails?.addingReview?.success) {
+      dispatch({
+        type: ADD_REVIEW_TO_PRODUCT,
+        payload: {
+          comment: review,
+          rating,
+          createdAt: new Date().toString(),
+          name: state?.userDetails.user.name,
+        },
+      });
+      setError("");
+      setReview("");
+      setRating(0);
+    }
+  }, [
+    dispatch,
+    rating,
+    review,
+    state?.userDetails?.addingReview?.success,
+    state?.userDetails.user.name,
+  ]);
   return state.guestState.isLoading || product.isLoading ? (
     <SpinnerContainer />
   ) : (
@@ -207,15 +235,57 @@ const ProductScreen = (props) => {
                     />
                     <Rating
                       style={{ margin: "0 20px 20px" }}
-                      onChange={(value) => {
+                      onChange={(e, value) => {
                         setRating(value);
                       }}
                       value={rating}
-                      defaultValue
+                      defaultValue={props.rate}
                       name="simple-controlled"
                     />
                     {error && <ErrorMessage>{error}</ErrorMessage>}
-                    {state.userDetails.adding}
+                    {state?.userDetails?.addingReview?.error && (
+                      <ErrorMessage>
+                        {state?.userDetails?.addingReview?.error}
+                      </ErrorMessage>
+                    )}
+                    {state?.userDetails?.addingReview?.success && (
+                      <SuccessMessage>
+                        {state?.userDetails?.addingReview?.success}
+                      </SuccessMessage>
+                    )}
+                    <FlexRow style={{ justifyContent: "start" }}>
+                      <Button
+                        text={"Submit"}
+                        link={
+                          state?.userDetails.user.name
+                            ? ""
+                            : `/login?pathname=${props.location.pathname}&rating=${rating}&review=${review}`
+                        }
+                        onClick={
+                          state?.userDetails.user.name
+                            ? () => {
+                                dispatch(
+                                  addReviewAction(
+                                    {
+                                      comment: review,
+                                      rating,
+                                    },
+                                    product.product._id
+                                  )
+                                );
+
+                                if (review && rating) {
+                                } else
+                                  setError(
+                                    "Please write a comment and add rating"
+                                  );
+                              }
+                            : () => {}
+                        }
+                        isLoading={state?.userDetails?.addingReview?.isLoading}
+                        borderRadius={10}
+                      />
+                    </FlexRow>
                   </FlexColWhite>
                   <ContentReviews>
                     {product.product?.reviews?.map((item) => (

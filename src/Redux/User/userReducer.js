@@ -18,7 +18,7 @@ import {
   USER_LOGOUT_SUCCESS,
 } from "./userTypesConstants";
 
-export const userReducer = (
+export const userReducer = ( 
   initialState = {
     user: {
       _id: "",
@@ -138,7 +138,7 @@ export const userReducer = (
     return {
       ...initialState, 
       addingReview: {
-        isLoading: true
+        isLoading: true 
       }
     }
     case ADD_REVIEW_SUCCESS:

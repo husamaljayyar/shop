@@ -8,7 +8,7 @@ import {
   GET_SEARCH_RESULTS_START,
   GET_SEARCH_RESULTS_SUCCESS,
   GET_SEARCH_RESULTS_FAILED,
-  GET_SLIDER_IMAGES_FAILED,
+  GET_SLIDER_IMAGES_FAILED, 
   GET_SLIDER_IMAGES_START,
   GET_SLIDER_IMAGES_SUCCESS,
 } from "./userTypesConstants";
@@ -77,6 +77,7 @@ export const guestReducers = (
         searchResults: {
           ...initialState.searchResults,
           isLoading: true,
+
         },
       };
     case GET_SEARCH_RESULTS_SUCCESS:

@@ -30,10 +30,8 @@ const SearchScreen = () => {
   }, [dispatch, keyword, page]);
 
 // Because execute isLoadin one only it's First search
-  return isLoading && page === 1 ? (
+  return isLoading  ? (
     <SpinnerContainer />
-  ) : error ? (
-    <ErrorMessage>{error}</ErrorMessage>
   ) : (
     <MainContainer>
       <Typography

@@ -184,7 +184,7 @@ export const addReviewAction = (values, id) => async (dispatch, getState) => {
 };
 
 // Logout
-export const logoutAction = () => {
+export const logoutAction = () => { 
   return {
     payload: null,
     type: USER_LOGOUT_SUCCESS,

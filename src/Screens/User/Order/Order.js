@@ -1,9 +1,5 @@
-import {
-  FlexRow,
-  InnerSection,
-  SpinnerContainer,
-  Typography,
-} from "../../../App.Styles";
+import { FlexRow, InnerSection, SpinnerContainer } from "../../../App.Styles";
+import { MainContainer, TypographyText } from "./Order.Style";
 import {
   ErrorMessage,
   OrderDetail,
@@ -31,15 +27,11 @@ function Order(props) {
   return state.orders.userOrder.isLoading ? (
     <SpinnerContainer />
   ) : (
-    <InnerSection style={{ margin: "44px 0 60px", alignItems: "flex-start" }}>
-      <Typography
-        style={{ justifyContent: "start" }}
-        fontSize="32"
-        color="#242424"
-        fontWeight="700"
-      >
+    <MainContainer>
+      <TypographyText fontSize={32} color="#242424" fontWeight={700}>
         Review Order
-      </Typography>
+      </TypographyText>
+
       <FlexRow
         style={{
           justifyContent: "flex-start",
@@ -51,48 +43,32 @@ function Order(props) {
         <Shipping>
           <ShippingAddress>
             <FlexRow style={{ justifyContent: "space-between" }}>
-              <Typography
-                style={{ justifyContent: "start" }}
-                fontSize="24"
-                fontWeight="bold"
-                color="#242424"
-              >
+              <TypographyText fontSize={24} fontWeight={700} color="#242424">
                 Shipping Address
-              </Typography>
+              </TypographyText>
             </FlexRow>
-            <Typography
-              style={{ justifyContent: "start" }}
-              fontSize={"22"}
-              color={"#242424"}
-            >
+            <TypographyText fontSize={22} color={"#242424"}>
               {state.userDetails.user.name}
-            </Typography>
-            <Typography
-              fontSize={"16"}
+            </TypographyText>
+            <TypographyText
+              fontSize={16}
               color={"#242424"}
-              fontWeigh={"light"}
               style={{
                 maxWidth: "290px",
                 lineHeight: "2",
-                justifyContent: "start",
               }}
             >
               {state.orders.userOrder.order?.shippingAddress?.country}-
               {state.orders.userOrder.order?.shippingAddress?.city}
-            </Typography>
+            </TypographyText>
           </ShippingAddress>
           <OrderDetail>
             <FlexRow
               style={{ justifyContent: "space-between", marginBottom: "16px" }}
             >
-              <Typography
-                style={{ justifyContent: "start" }}
-                fontSize="24"
-                fontWeight="bold"
-                color="#242424"
-              >
+              <TypographyText fontSize={24} fontWeight={700} color="#242424">
                 Order Details
-              </Typography>
+              </TypographyText>
             </FlexRow>
             {/* Order Items */}
             {state.orders?.userOrder?.order?.orderItems?.map((i) => (
@@ -111,51 +87,37 @@ function Order(props) {
         {/* Right Side */}
         <StyledOrder>
           <OrderDetails>
-            <Typography
-              fontSize={"32"}
+            <TypographyText
+              fontSize={32}
               color={"#242424"}
-              fontWeight={"bold"}
-              style={{ marginBottom: "30px", justifyContent: "start" }}
+              fontWeight={700}
+              style={{ marginBottom: "30px" }}
             >
               Order Details
-            </Typography>
+            </TypographyText>
             <FlexRow style={{ justifyContent: "space-between" }}>
-              <Typography style={{ justifyContent: "start" }} color={"#707070"}>
-                Subtotal
-              </Typography>
-              <Typography style={{ justifyContent: "start" }} color={"#707070"}>
+              <TypographyText color={"#707070"}>Subtotal</TypographyText>
+              <TypographyText color={"#707070"}>
                 $
                 {state.orders?.userOrder?.order?.orderItems
                   .reduce((acc, item) => acc + item.price * item.qty, 0)
                   .toFixed(2)}
-              </Typography>
+              </TypographyText>
+            </FlexRow>
+            <FlexRow s>
+              <TypographyText color={"#707070"}>Tax</TypographyText>
+              <TypographyText color={"#707070"}>$0</TypographyText>
             </FlexRow>
             <FlexRow style={{ justifyContent: "space-between" }}>
-              <Typography style={{ justifyContent: "start" }} color={"#707070"}>
-                Tax
-              </Typography>
-              <Typography style={{ justifyContent: "start" }} color={"#707070"}>
-                $0
-              </Typography>
-            </FlexRow>
-            <FlexRow style={{ justifyContent: "space-between" }}>
-              <Typography
-                style={{ justifyContent: "start" }}
-                color={"#242424"}
-                fontWeight={"bold"}
-              >
+              <TypographyText color={"#242424"} fontWeight={700}>
                 Shipping
-              </Typography>
-              <Typography
-                style={{ justifyContent: "start" }}
-                color={"#242424"}
-                fontWeight={"bold"}
-              >
+              </TypographyText>
+              <TypographyText color={"#242424"} fontWeight={700}>
                 $
                 {state.orders?.userOrder?.order?.orderItems
                   .reduce((acc, item) => acc + item.price * item.qty, 0)
                   .toFixed(2)}
-              </Typography>
+              </TypographyText>
             </FlexRow>
           </OrderDetails>
           {!state.orders.userOrder.order.isPaid && (
@@ -186,12 +148,18 @@ function Order(props) {
                   clientId:
                     "ATx8Na-9swFrVwvoIGlZWfw7-CJoXi4QaatMLp7pMMv0y8fEu49zwf6AYBnmdNLxS3G7i2gAhx5g4l0K",
                 }}
+                style={{
+                  shape: "rect",
+                  label: "paypal",
+                  size: 'large',
+                  color: 'gold',
+                  }}
               />
             </FlexRow>
           )}
         </StyledOrder>
       </FlexRow>
-    </InnerSection>
+    </MainContainer>
   );
 }
 
